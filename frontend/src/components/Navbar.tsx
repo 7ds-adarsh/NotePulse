@@ -6,6 +6,8 @@ interface User {
     email: string;
 }
 
+const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+
 export default function Navbar() {
     const [user, setUser] = useState<User | null>(null);
     const [loading, setLoading] = useState(true);
@@ -30,7 +32,7 @@ export default function Navbar() {
 
     const fetchUser = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/auth/profile", {
+            const res = await fetch(`${apiBase}/api/auth/profile`, {
                 credentials: "include",
             });
 
@@ -48,7 +50,7 @@ export default function Navbar() {
     };
 
     const handleLogout = async () => {
-        await fetch("http://localhost:5000/api/auth/logout", {
+        await fetch(`${apiBase}/api/auth/logout`, {
             method: "POST",
             credentials: "include",
         });

@@ -7,6 +7,8 @@ type UserProfile = {
     email: string;
 };
 
+const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+
 export default function Dashboard() {
     const [user, setUser] = useState<UserProfile | null>(null);
     const [stats, setStats] = useState({
@@ -19,7 +21,7 @@ export default function Dashboard() {
 
     const fetchStats = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/stats/", {
+            const res = await fetch(`${apiBase}/api/stats/`, {
                 credentials: "include",
             });
 
@@ -35,7 +37,7 @@ export default function Dashboard() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const res = await fetch("http://localhost:5000/api/auth/profile", {
+            const res = await fetch(`${apiBase}/api/auth/profile`, {
                 credentials: "include",
             });
 

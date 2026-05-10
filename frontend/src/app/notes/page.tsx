@@ -4,6 +4,8 @@ import { useEffect, useState, type KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../components/Toast";
 
+const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+
 type Note = {
     id: number;
     title: string | null;
@@ -35,7 +37,7 @@ export default function NotesPage() {
 
     useEffect(() => {
         const checkAuth = async () => {
-            const res = await fetch("http://localhost:5000/api/auth/profile", {
+            const res = await fetch(`${apiBase}/api/auth/profile`, {
                 credentials: "include",
             });
 
@@ -53,7 +55,7 @@ export default function NotesPage() {
 
     const fetchNotes = async () => {
         try {
-            const res = await fetch("http://localhost:5000/api/notes/", {
+            const res = await fetch(`${apiBase}/api/notes/`, {
                 credentials: "include",
             });
 
@@ -75,7 +77,7 @@ export default function NotesPage() {
 
         setIsSubmitting(true);
         try {
-            const res = await fetch("http://localhost:5000/api/notes/", {
+            const res = await fetch(`${apiBase}/api/notes/`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -104,7 +106,7 @@ export default function NotesPage() {
         newFormatting: string
     ) => {
         try {
-            const res = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
+            const res = await fetch(`${apiBase}/api/notes/${noteId}`, {
                 method: "PUT",
                 headers: { "Content-Type": "application/json" },
                 credentials: "include",
@@ -126,7 +128,7 @@ export default function NotesPage() {
 
         setDeletingId(noteId);
         try {
-            const res = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
+            const res = await fetch(`${apiBase}/api/notes/${noteId}`, {
                 method: "DELETE",
                 credentials: "include",
             });

@@ -4,6 +4,8 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 
+const apiBase = process.env.NEXT_PUBLIC_API_BASE_URL || "http://localhost:5000";
+
 export default function Register() {
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
@@ -12,7 +14,7 @@ export default function Register() {
     const handleRegister = async (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        await fetch("http://localhost:5000/api/auth/register", {
+        await fetch(`${apiBase}/api/auth/register`, {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",

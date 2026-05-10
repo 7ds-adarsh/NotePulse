@@ -46,6 +46,16 @@ npm run dev
 
 Open `http://localhost:3000` in your browser.
 
+### Environment variable
+
+Create a `.env.local` file in `frontend/` and set:
+
+```bash
+NEXT_PUBLIC_API_BASE_URL=https://notepulse-1.onrender.com
+```
+
+For local development, keep the backend running on `http://localhost:5000`, and the app will automatically fall back to that when the env variable is not set.
+
 ## API endpoints
 
 - `POST /api/auth/login` — login with email and password
