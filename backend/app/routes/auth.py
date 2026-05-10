@@ -28,8 +28,8 @@ def login():
         "token",
         token,
         httponly=True,
-        secure=False,  # dev only
-        samesite="Lax",  # changed from "None" for better compatibility
+        secure=True,  # required for HTTPS/production
+        samesite="Lax",
         path="/",  # ensure global access
     )
 
