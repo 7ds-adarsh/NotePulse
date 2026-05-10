@@ -29,7 +29,7 @@ def login():
         token,
         httponly=True,
         secure=True,  # required for HTTPS/production
-        samesite="Lax",
+        samesite="None",  # required for cross-origin requests
         path="/",  # ensure global access
     )
 
