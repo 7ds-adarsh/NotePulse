@@ -1,20 +1,32 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, type KeyboardEvent } from "react";
 import { useRouter } from "next/navigation";
 import { useToast } from "../../components/Toast";
 
+type Note = {
+    id: number;
+    title: string | null;
+    content: string;
+    formatting: string;
+    created_at: string;
+};
+
+type UserProfile = {
+    email: string;
+};
+
 export default function NotesPage() {
-    const [notes, setNotes] = useState([]);
+    const [notes, setNotes] = useState<Note[]>([]);
     const [content, setContent] = useState("");
     const [title, setTitle] = useState("");
     const [formatting, setFormatting] = useState("{}");
     const [loading, setLoading] = useState(true);
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<UserProfile | null>(null);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [deletingId, setDeletingId] = useState(null);
+    const [deletingId, setDeletingId] = useState<number | null>(null);
     const [searchQuery, setSearchQuery] = useState("");
-    const [editingId, setEditingId] = useState(null);
+    const [editingId, setEditingId] = useState<number | null>(null);
     const [editingContent, setEditingContent] = useState("");
     const [editingTitle, setEditingTitle] = useState("");
     const [editingFormatting, setEditingFormatting] = useState("{}");
@@ -85,7 +97,12 @@ export default function NotesPage() {
         }
     };
 
-    const updateNote = async (noteId, newContent, newTitle, newFormatting) => {
+    const updateNote = async (
+        noteId: number,
+        newContent: string,
+        newTitle: string | null,
+        newFormatting: string
+    ) => {
         try {
             const res = await fetch(`http://localhost:5000/api/notes/${noteId}`, {
                 method: "PUT",
@@ -104,7 +121,7 @@ export default function NotesPage() {
         }
     };
 
-    const deleteNote = async (noteId) => {
+    const deleteNote = async (noteId: number) => {
         if (deletingId) return;
 
         setDeletingId(noteId);
@@ -126,7 +143,7 @@ export default function NotesPage() {
         }
     };
 
-    const startEditing = (note) => {
+    const startEditing = (note: Note) => {
         setEditingId(note.id);
         setEditingContent(note.content);
         setEditingTitle(note.title || "");
@@ -147,7 +164,7 @@ export default function NotesPage() {
         cancelEditing();
     };
 
-    const renderFormattedText = (text) => {
+    const renderFormattedText = (text: string) => {
         if (!text) return text;
 
         // Simple markdown-like rendering
@@ -164,7 +181,7 @@ export default function NotesPage() {
         note.content.toLowerCase().includes(searchQuery.toLowerCase())
     );
 
-    const handleKeyDown = (e) => {
+    const handleKeyDown = (e: KeyboardEvent<HTMLTextAreaElement>) => {
         if (e.key === "Enter" && !e.shiftKey) {
             e.preventDefault();
             addNote();
@@ -413,7 +430,7 @@ export default function NotesPage() {
                                                 <div className="flex flex-wrap gap-2">
                                                     <button
                                                         onClick={() => {
-                                                            const textarea = document.querySelector(`textarea[data-editing="${editingId}"]`);
+                                                            const textarea = document.querySelector<HTMLTextAreaElement>(`textarea[data-editing="${editingId}"]`);
                                                             if (textarea) {
                                                                 const start = textarea.selectionStart;
                                                                 const end = textarea.selectionEnd;
@@ -434,7 +451,7 @@ export default function NotesPage() {
                                                     </button>
                                                     <button
                                                         onClick={() => {
-                                                            const textarea = document.querySelector(`textarea[data-editing="${editingId}"]`);
+                                                            const textarea = document.querySelector<HTMLTextAreaElement>(`textarea[data-editing="${editingId}"]`);
                                                             if (textarea) {
                                                                 const start = textarea.selectionStart;
                                                                 const end = textarea.selectionEnd;
@@ -454,7 +471,7 @@ export default function NotesPage() {
                                                     </button>
                                                     <button
                                                         onClick={() => {
-                                                            const textarea = document.querySelector(`textarea[data-editing="${editingId}"]`);
+                                                            const textarea = document.querySelector<HTMLTextAreaElement>(`textarea[data-editing="${editingId}"]`);
                                                             if (textarea) {
                                                                 const start = textarea.selectionStart;
                                                                 const end = textarea.selectionEnd;

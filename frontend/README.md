@@ -1,36 +1,71 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Notty
 
-## Getting Started
+Notty is a modern personal note-taking app with secure authentication, live dashboard stats, and fast note management. It combines a Next.js frontend with a Flask backend and stores data in SQLite so you can create, update, delete, and search notes in a polished full-stack interface.
 
-First, run the development server:
+## Features
+
+- Email/password auth with secure session cookies
+- Create, edit, and delete notes
+- Search notes by title or content
+- Lightweight note formatting with markdown-like rendering
+- Live dashboard metrics: total notes, notes created this week, and last update
+- Full-stack architecture with Next.js frontend and Flask API backend
+
+## Project structure
+
+- `frontend/` — Next.js app, UI pages, note editor, authentication flow
+- `backend/` — Flask API, SQLite database, auth and notes routes
+
+## Local development
+
+### Backend
+
+1. Create and activate a Python environment.
+2. Install dependencies:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+pip install flask flask-cors flask-sqlalchemy bcrypt
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+3. Run the backend server from the project root:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+python backend/run.py
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+The backend listens on `http://127.0.0.1:5000` and automatically creates the SQLite database.
 
-## Learn More
+### Frontend
 
-To learn more about Next.js, take a look at the following resources:
+From `frontend/`:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+npm install
+npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Open `http://localhost:3000` in your browser.
 
-## Deploy on Vercel
+## API endpoints
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- `POST /api/auth/login` — login with email and password
+- `POST /api/auth/register` — create a new user
+- `GET /api/auth/profile` — user profile info
+- `POST /api/auth/logout` — logout
+- `GET /api/notes/` — list notes
+- `POST /api/notes/` — create a note
+- `PUT /api/notes/<id>` — update a note
+- `DELETE /api/notes/<id>` — delete a note
+- `GET /api/stats/` — note statistics
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Notes
+
+- The backend uses SQLite at `backend/app.db`.
+- CORS is configured for `http://localhost:3000`.
+- Authentication relies on a cookie named `token`.
+
+## Future improvements
+
+- Add password reset and profile settings
+- Add richer markdown support and note tagging
+- Add deployment configuration for production

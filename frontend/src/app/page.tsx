@@ -3,8 +3,12 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+type UserProfile = {
+    email: string;
+};
+
 export default function Dashboard() {
-    const [user, setUser] = useState(null);
+    const [user, setUser] = useState<UserProfile | null>(null);
     const [stats, setStats] = useState({
         total_notes: 0,
         notes_this_week: 0,
